@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="Keywords" content="">
+	<meta name="Description" content="">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>XuLuo</title>
+	<style>
+		*{margin: 0;padding: 0;}
+		.scrollload-content li{padding:12px 15px;border-bottom:1px solid #c8c8c8;list-style:none;}
+	</style>
+</head>
+<body>
+	<div class="scrollload-container">
+		<ul class="scrollload-content">
+			<li> 单行列表标题效果 </li>
+            <li> 单行列表标题效果 </li>
+            <li> 单行列表标题效果 </li>
+		</ul>
+	</div>
+	<script type="text/javascript" src="js/Scrollload.js"></script>
+	<script type="text/javascript" src="js/traditionalSkin.js"></script>
+	<script type="text/javascript" src="js/reqwest.min.js"></script>
+	<script type="text/javascript">
+		// 文档地址https://github.com/fa-ge/Scrollload
+		var page = 1;
+		new Scrollload({
+		  	// container 和 content 两个配置的默认取的scrollload-container和scrollload-content类的dom。只要你按照以上的dom结构写，这两个配置是可以省略的
+		  	container: document.querySelector('.scrollload-container'),
+		    content: document.querySelector('.scrollload-content'),
+		    loadMore: function(sl){  
+		        if (page === 6) {
+		          // 没有数据的时候需要调用noMoreData
+		            sl.noMoreData();
+		            return;
+		        }		    
+		        reqwest({
+		            method: 'get',
+		            url: 'json/json.txt?',
+		            dataType: 'json',
+		            success: function(data){
+		                // contentDom其实就是你的scrollload-content类的dom
+		                var data = eval("("+data+")");	      					
+				      	for(var name in data){
+				      		var node=document.createElement('li');
+				      		node.innerHTML=data[name];
+				      		sl.contentDom.appendChild(node);
+				      	}
+		                // 处理完业务逻辑后必须要调用unlock
+		                sl.unLock();
+		            },
+		            error: function(xhr, type){
+		                // 加载出错，需要执行该方法。这样底部DOM会出现出现异常的样式。
+		                sl.throwException();
+		            }
+		        });
+		    },
+		    // 你也可以关闭下拉刷新
+		    enablePullRefresh: true,
+		    pullRefresh: function (sl) {
+		        reqwest({
+		            method: 'get',
+		            url: 'json/json.txt',
+		            dataType: 'json',
+		            success: function(data){
+		                var data = eval("("+data+")");	      					
+				      	for(var name in data){
+				      		var node=document.createElement('li');
+				      		node.innerHTML=data[name];
+				      		sl.contentDom.insertBefore(node,sl.contentDom.querySelectorAll('li')[0]);
+				      	}
+		                // 处理完业务逻辑后必须要调用refreshComplete
+		                sl.refreshComplete();
+		            }
+		        });
+		    }
+		});
+	</script>
+</body>
+</html>

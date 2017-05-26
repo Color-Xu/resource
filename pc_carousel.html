@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="Keywords" content="">
+	<meta name="Description" content="">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-sclae=1.0,user-scalable=0">
+	<title>XuLuo</title>
+	<!-- 必须引入的js -->
+	<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+	<style>
+		*{margin: 0;padding: 0;font-family: 'microsoft yahei',Arial;}
+		a{text-decoration: none;outline: none;}
+		ul,li{list-style: none;}
+		h3{margin:5px;}
+		body{padding: 10px;}
+		/*实例所需css*/
+		#carousel{position:relative;}
+		#carousel li{list-style:none;position:relative;overflow:hidden;}
+		#carousel li img{width:100%;}
+		#carousel li p{position: absolute;;left:-200px;top:50%;color:#fff;font-size:20px;}
+		#carousel .cir{position: absolute;left:50%;bottom:5px;margin-left:-23px;}
+		#carousel .cir a{display:inline-block;width:10px;height:10px;background:#fff;opacity:0.5;border-radius:50%;}
+		#carousel .cir a.on{background:#fff;opacity:1;}
+	</style>
+</head>
+<body>
+	<h3>必须引入jquery-1.8.3.min.js、slide.js</h3>
+	<h3><a href="http://www.superslide2.com/" target="_blank" style="text-decoration:underline;">插件api官网</a></h3>
+	<h3>效果查看</h3>
+	<div id="carousel">
+		<ul>
+			<li>
+				<img src="images/bnr1.jpg">
+				<p>想滑就滑</p>
+			</li>
+			<li>
+				<img src="images/bnr2.jpg">
+				<p>兼容IE</p>
+			</li>
+			<li>
+				<img src="images/bnr3.jpg">
+				<p>使用方便</p>
+			</li>
+		</ul>
+		<div class="cir">
+			<a href="javascript:;"></a>
+			<a href="javascript:;"></a>
+			<a href="javascript:;"></a>
+		</div>
+	</div>
+	<!-- 必须引入的js -->
+	<script type="text/javascript" src="js/slide.js"></script>
+	<script>
+		$('#carousel').slide({ 
+			titCell:".cir a",//开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+			mainCell:"ul", 
+			effect:"fade", 
+			autoPlay:true,//自动播放,
+			innerTime:5000,
+			startFun:function(i){
+				$('#carousel li').find('p').css({'left':'-200px'});
+				$('#carousel li').eq(i).find('p').delay(800).animate({'left':'50px'},800,'easeOutBounce');
+			}
+		});
+	</script>
+</body>
+</html>

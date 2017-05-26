@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="Keywords" content="">
+	<meta name="Description" content="">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+	<title>下拉加载</title>
+	<style>
+		*{margin:0;padding:0;}
+		html,body{height:100%;}
+		.body{width:100%;height:100%;color:#666;position:relative;}
+		.load{text-align:center;position:fixed;left:50%;-webkit-transform:translate3d(-50%,0,0) rotate(0deg);transform:translate3d(-50%,0,0) rotate(0deg);bottom:40px;width:35px;height:35px;border:1px solid #dddddd;border-radius:50%;-webkit-transition:all .6s;transition:all .6s;display: none;}
+		.rotate{-webkit-transform:translate3d(-50%,0,0) rotate(480deg);transform:translate3d(-50%,0,0) rotate(480deg);}
+		ul li{padding:10px;text-indent:50px;background:#eee;margin:5px auto;}
+	</style>
+</head>
+<body>
+	<div class="body">
+		<div class="load">
+			<img src="images/load.png" alt="" width="35">
+		</div>
+		<ul>
+			
+		</ul>
+	</div>
+	<script type="text/javascript" src="js/reqwest.min.js"></script>
+	<script>
+		var load=document.querySelector('.load');
+		//获取窗口可视范围的高度
+		function getClientHeight(){   
+		    var clientHeight=0;   
+		    if(document.body.clientHeight&&document.documentElement.clientHeight){   
+		         clientHeight=(document.body.clientHeight<document.documentElement.clientHeight)?document.body.clientHeight:document.documentElement.clientHeight;           
+		    }else{  
+		         clientHeight=(document.body.clientHeight>document.documentElement.clientHeight)?document.body.clientHeight:document.documentElement.clientHeight;       
+		    }   
+		    return clientHeight;   
+		}
+		function getScrollTop(){   
+		    var scrollTop=0;   
+		    scrollTop=(document.body.scrollTop>document.documentElement.scrollTop)?document.body.scrollTop:document.documentElement.scrollTop;           
+		    return scrollTop;   
+		}
+		var page=1;
+		reqwest({
+		    url: 'https://cnodejs.org/api/v1/topics?page='+page++, 
+		    method: 'get',
+		    dataType:'json', 
+		    success: function (resp) {
+		    	load.classList.remove('rotate');
+		    	load.style.display='none';
+		    	for(var i=0;i<resp.data.length;i++){
+		    		if(!load.classList.contains('rotate')){
+      					var node=document.createElement('li');
+				      	node.innerHTML=resp.data[i].title;
+				      	document.querySelector('ul').appendChild(node);
+      				}   
+		    	} 	
+		    }
+		});
+		window.onscroll=function(){
+			var dch = getClientHeight();
+        	scrollTop = getScrollTop();
+          	scrollBottom = document.body.scrollHeight - scrollTop-getClientHeight();
+		    if(scrollBottom >= 0 && scrollBottom <= 5){    
+		        load.style.display="block";		     
+				setTimeout(function(){
+					load.classList.add('rotate');			
+					setTimeout(function(){
+						reqwest({
+						    url: 'https://cnodejs.org/api/v1/topics?page='+page++, 
+						    method: 'get',
+						    dataType:'json', 
+						    success: function (resp) {
+						    	load.classList.remove('rotate');
+						    	load.style.display='none';
+						    	for(var i=0;i<resp.data.length;i++){
+						    		if(!load.classList.contains('rotate')){
+				      					var node=document.createElement('li');
+								      	node.innerHTML=resp.data[i].title;
+								      	document.querySelector('ul').appendChild(node);
+				      				}   
+						    	} 	
+						    }
+						});		      		
+			      	},100);				
+				},10);    
+		    }
+		};
+	</script>
+</body>
+</html>

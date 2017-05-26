@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<!-- saved from url=(0028)http://www.jayui.com/jedate/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>jeDate日期控件</title>
+<link href="./src/jeui.css" rel="stylesheet" type="text/css">
+<link href="./src/prism.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="../../js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="./src/prism.js"></script>
+<script type="text/javascript" src="../../js/jedate.min.js"></script>
+<link type="text/css" rel="stylesheet" href="../../css/jedate.css">
+</head>
+
+<body>
+<div class="topbarbox fmy">
+     <div class="topnavbox f18">
+          <ul class="juiw100">
+          <li><a href="http://www.jayui.com/">首页</a></li>
+          <li class="fr"><a href="http://fly.jayui.com/">社区</a></li>
+          </ul>
+     </div>
+</div>
+<div class="warpbox pt15 ovh">
+    <div class="deflogo fl ovh">jeDate<span class="f24 pl15">日期控件</span></div>
+    <div class="defotdown fr">
+        <div class="othersm fl f14">
+            <p>当前版本：<cite class="mr30" id="version">3.4</cite> <span class="red pl30">此为PC日期控件，非手机日期控件</span></p>
+            <p><span class="mr30">下载次数：<cite id="downnum">5434</cite>次</span></p>
+            <p><span>Github: <a target="_blank" href="https://github.com/singod/jeDate/stargazers"><img src="./src/jeDate.svg"></a></span></p>
+        </div>
+        <div class="downlist fr">
+            <a href="https://github.com/singod/jeDate" class="git fl f16 tc jedatedown">Github下载</a>
+            <a href="http://www.jayui.com/jedate/download/jedate-3.4.zip" class="local fl f16 tc jedatedown">官网下载</a>
+        </div>
+    </div>
+</div>
+<div class="warpbox fmy">
+<div class="workcon pb30">
+
+<!----------------start------------->
+    <blockquote>
+    jeDate除了包含初始化日期加减N、日期标注点、输入框可以直接输入时间、设定年月（YYYY-MM）、日期范围限制、开始日期设定、自定义日期格式、时间戳转换、当天的前后若干天返回、时分秒选择、智能响应、自动纠错、节日识别，操作等常规功能外，根据不同的日期格式，显示不同内容，还拥有更多趋近完美的解决方案。<span class="green b">您可以免费将她用于任何个人项目。但是不能去除头部信息。</span>  QQ群：516754269 <br><br>
+    非常感谢：<span class="green">——Gang@ </span>参与开发<br>
+    希望大家多多参与开发！
+    </blockquote>
+    <h3 class="f18">更新日志 <span class="f14 green ml30">更新时间：2016-9-6</span></h3>
+    <blockquote>
+    <span class="red">0、增加 (YYYYMMDD) 连串日期格式类型</span><br>
+    <span class="red">1、增加 “skinCell”，风格调用，CSS中增加了3种风格（红、绿、蓝）</span><br>
+    2、修复下拉月份不被选择的BUG<br>
+    3、修复initAddVal，因为30号或者31号加减N天造成的错误<br>
+    4、增加“isToday”，是否显示今天或本月<br>
+    5、优化（startMin，startMax），清除日期后返回到预设的日期<br>
+    6、增加YYYY格式，可以支持只选年<br>
+    7、更多功能自己去体验<br>
+    </blockquote>
+    <h3 class="f18">注意事项</h3>
+    <blockquote>
+    1、解压后，将jedate整个文件放至您项目的任意目录<br>
+    <span class="red">2、控件不支持选周</span><br>
+    
+    <span class="mt10 f16 g3 ovh show">浏览器兼容，下面是我们的主要兼容目标</span>
+    1、Internet Explorer &gt;= 8 (Windows), <span class="red">IE8以下浏览器不兼容</span><br>
+    2、Safari (Mac)<br>
+    3、Chrome (Windows, Mac, iOS, Linux)<br>
+    4、Firefox (Windows, Mac,  Linux)<br>
+    5、谷歌内核(webkit)浏览器，如360浏览器，搜狗浏览器，QQ浏览器等
+    </blockquote>
+    <h3 class="f18">使用方法</h3>
+<pre class="code mt15"><code class=" language-javascript">
+<span class="token operator">&lt;</span>script type<span class="token operator">=</span><span class="token string">"text/javascript"</span><span class="token operator">&gt;</span>
+<span class="token function">jeDate</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    dateCell<span class="token punctuation">:</span><span class="token string">"#test"</span><span class="token punctuation">,</span>
+    format<span class="token punctuation">:</span><span class="token string">"YYYY-MM-DD"</span><span class="token punctuation">,</span>
+    isTime<span class="token punctuation">:</span><span class="token boolean">false</span><span class="token punctuation">,</span> 
+    minDate<span class="token punctuation">:</span><span class="token string">"2014-09-19 00:00:00"</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">&gt;</span>
+</code>
+</pre>
+    <h3 class="f18">核心方法（配置）：jeDate(options)</h3>
+    <blockquote>options是一个对象，它包含了以下key: '默认值'</blockquote>
+<pre class="code mt15"><code class=" language-javascript">
+dateCell<span class="token punctuation">:</span><span class="token string">"#id"</span><span class="token punctuation">,</span>                       <span class="token comment" spellcheck="true">//目标元素。由于jedate.js封装了一个轻量级的选择器，因此dateCell还允许你传入class、tag这种方式 '#id .class'</span>
+skinCell<span class="token punctuation">:</span><span class="token string">"jedateblue"</span><span class="token punctuation">,</span>                <span class="token comment" spellcheck="true">//日期风格样式，默认蓝色</span>
+format<span class="token punctuation">:</span><span class="token string">"YYYY-MM-DD hh:mm:ss"</span><span class="token punctuation">,</span>         <span class="token comment" spellcheck="true">//日期格式</span>
+minDate<span class="token punctuation">:</span><span class="token string">"1900-01-01 00:00:00"</span><span class="token punctuation">,</span>        <span class="token comment" spellcheck="true">//最小日期</span>
+maxDate<span class="token punctuation">:</span><span class="token string">"2099-12-31 23:59:59"</span><span class="token punctuation">,</span>        <span class="token comment" spellcheck="true">//最大日期</span>
+startMin<span class="token punctuation">:</span><span class="token string">""</span><span class="token punctuation">,</span>                          <span class="token comment" spellcheck="true">//清除日期后返回到预设的最小日期</span>
+startMax<span class="token punctuation">:</span><span class="token string">""</span><span class="token punctuation">,</span>                          <span class="token comment" spellcheck="true">//清除日期后返回到预设的最大日期</span>
+isinitVal<span class="token punctuation">:</span><span class="token boolean">false</span><span class="token punctuation">,</span>                      <span class="token comment" spellcheck="true">//是否初始化时间，默认不初始化时间</span>
+initAddVal<span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>                       <span class="token comment" spellcheck="true">//初始化时间，加减 天 时 分</span>
+isTime<span class="token punctuation">:</span><span class="token boolean">true</span><span class="token punctuation">,</span>                          <span class="token comment" spellcheck="true">//是否开启时间选择</span>
+ishmsLimit<span class="token punctuation">:</span><span class="token boolean">false</span><span class="token punctuation">,</span>                     <span class="token comment" spellcheck="true">//时分秒限制</span>
+ishmsVal<span class="token punctuation">:</span><span class="token boolean">true</span><span class="token punctuation">,</span>                        <span class="token comment" spellcheck="true">//是否限制时分秒输入框输入，默认可以直接输入时间</span>
+isClear<span class="token punctuation">:</span><span class="token boolean">true</span><span class="token punctuation">,</span>                         <span class="token comment" spellcheck="true">//是否显示清空</span>
+isToday<span class="token punctuation">:</span><span class="token boolean">true</span><span class="token punctuation">,</span>                         <span class="token comment" spellcheck="true">//是否显示今天或本月</span>
+clearRestore<span class="token punctuation">:</span><span class="token boolean">true</span><span class="token punctuation">,</span>                    <span class="token comment" spellcheck="true">//清空输入框，返回预设日期，输入框非空的情况下有效</span>
+festival<span class="token punctuation">:</span><span class="token boolean">false</span><span class="token punctuation">,</span>                       <span class="token comment" spellcheck="true">//是否显示节日</span>
+fixed<span class="token punctuation">:</span><span class="token boolean">true</span><span class="token punctuation">,</span>                           <span class="token comment" spellcheck="true">//是否静止定位，为true时定位在输入框，为false时居中定位</span>
+zIndex<span class="token punctuation">:</span><span class="token number">2099</span><span class="token punctuation">,</span>                          <span class="token comment" spellcheck="true">//弹出层的层级高度</span>
+marks<span class="token punctuation">:</span><span class="token keyword">null</span><span class="token punctuation">,</span>                           <span class="token comment" spellcheck="true">//给日期做标注</span>
+choosefun<span class="token punctuation">:</span><span class="token keyword">function</span><span class="token punctuation">(</span>elem<span class="token punctuation">,</span> val<span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>     <span class="token comment" spellcheck="true">//选中日期后的回调, elem当前输入框ID, val当前选择的值</span>
+clearfun<span class="token punctuation">:</span><span class="token keyword">function</span><span class="token punctuation">(</span>elem<span class="token punctuation">,</span> val<span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>      <span class="token comment" spellcheck="true">//清除日期后的回调, elem当前输入框ID, val当前选择的值</span>
+okfun<span class="token punctuation">:</span><span class="token keyword">function</span><span class="token punctuation">(</span>elem<span class="token punctuation">,</span> val<span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>         <span class="token comment" spellcheck="true">//点击确定后的回调, elem当前输入框ID, val当前选择的值</span>
+success<span class="token punctuation">:</span><span class="token keyword">function</span><span class="token punctuation">(</span>elem<span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>            <span class="token comment" spellcheck="true">//层弹出后的成功回调方法, elem当前输入框ID</span>
+</code>
+</pre>
+    <h3 class="f18">使用对象</h3>
+    <blockquote>可以使用在文本框与非文本框上：如 input 、 DIV，建议使用 “input” 标签</blockquote>
+<pre class="code"><code class=" language-javascript">
+<span class="token operator">&lt;</span>input id<span class="token operator">=</span><span class="token string">"indate"</span> type<span class="token operator">=</span><span class="token string">"text"</span> placeholder<span class="token operator">=</span><span class="token string">"请选择"</span>  readonly<span class="token operator">&gt;</span>
+<span class="token operator">&lt;</span>div id<span class="token operator">=</span><span class="token string">"dateinfo"</span><span class="token operator">&gt;</span><span class="token operator">&lt;</span>div<span class="token operator">&gt;</span>
+</code>
+</pre>
+    <h3 class="f18">支持格式类型</h3>
+    <blockquote>
+       1、 YYYY-MM-DD hh:mm:ss<br>
+       2、 YYYY-MM-DD hh:mm<br>
+       3、 YYYY-MM-DD<br>
+       4、 YYYY-MM<br>
+       5、 YYYY<br>
+       6、 hh:mm:ss<br>
+       7、 hh:mm<br>
+    </blockquote>
+
+    <h3 class="f18">功能演示</h3>
+    <blockquote>
+        当格式为 hh:mm:ss 或者 hh:mm 的时候，今天按钮就被隐藏了，没有秒的话就只显示时分，没有只显示时的！
+    </blockquote>
+    <div class="mt10 mb15 ovh">
+    <p class="mb15 ovh">
+        <span class="wstxt">（YYYY年MM月DD日 hh:mm:ss）格式：</span><input class="workinput wicon mr25" id="ymd01" type="text" placeholder="YYYY年MM月DD日 hh:mm:ss" readonly="">
+        <span class="wstxt">（YYYY年MM月DD日 hh:mm）格式：</span><input class="workinput wicon mr25" id="ymd02" type="text" placeholder="YYYY年MM月DD日 hh:mm" readonly="">
+    </p>
+    
+    <p class="mb15 ovh">
+        <span class="wstxt">年（YYYY）：</span><input class="workinput wicon mr25" id="ymnian" type="text" placeholder="YYYY" readonly="">
+        <span class="wstxt">时分秒（hh:mm:ss）：</span><input class="workinput wicon mr25" id="hm01" type="text" placeholder="hh:mm:ss" readonly="">
+        <span class="wstxt">时分（hh:mm）：</span><input class="workinput wicon mr25" id="hm02" type="text" placeholder="hh:mm" readonly="">
+    </p>
+    
+    <!--<p class="mb15 ovh">-->
+        <!--<span class="wstxt">直接显示（YYYY-MM-DD hh:mm:ss）格式：</span><input class="workinput wicon mr25" id="showStyle" type="text" placeholder="YYYY-MM-DD hh:mm:ss"  readonly>-->
+        <!--<span class="wstxt">直接显示（YYYY-MM-DD hh:mm:ss）格式：</span><input class="workinput wicon mr25" type="text" placeholder="YYYY-MM-DD hh:mm:ss"  readonly>-->
+    <!--</p>-->
+    <div class="mb15 ovh">
+         <div class="directlyshow mr15 fl"></div>
+    </div>
+    </div>
+<pre class="code ovh"><code class=" language-javascript">
+
+【返回日期】
+jeDate<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">//0代表今天，-1代表昨天，-2代表前天，1代表明天，2代表后天，以此类推</span>
+
+【时间戳转换】
+jeDate<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token string">"1460641190"</span><span class="token punctuation">)</span>  得到 <span class="token number">2016</span><span class="token operator">-</span><span class="token number">4</span><span class="token operator">-</span><span class="token number">14</span> <span class="token number">21</span><span class="token punctuation">:</span><span class="token number">39</span><span class="token punctuation">:</span><span class="token number">50</span>
+
+【绑定ID】
+<span class="token operator">&lt;</span>input <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"workinput wicon"</span> id<span class="token operator">=</span><span class="token string">"test1"</span> type<span class="token operator">=</span><span class="token string">"text"</span> placeholder<span class="token operator">=</span><span class="token string">"YYYY年MM月DD日 hh:mm:ss"</span> readonly<span class="token operator">&gt;</span>
+<span class="token operator">&lt;</span>input <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"workinput wicon mr25"</span> id<span class="token operator">=</span><span class="token string">"texthms"</span> type<span class="token operator">=</span><span class="token string">"text"</span> placeholder<span class="token operator">=</span><span class="token string">"hh:mm:ss"</span>  readonly<span class="token operator">&gt;</span>
+
+【jeDate调用】
+<span class="token comment" spellcheck="true">//点击显示（YYYY年MM月DD日 hh:mm:ss）格式</span>
+<span class="token function">jeDate</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    dateCell<span class="token punctuation">:</span> <span class="token string">'#ymd01'</span><span class="token punctuation">,</span>
+    isinitVal<span class="token punctuation">:</span><span class="token boolean">true</span><span class="token punctuation">,</span>
+    festival<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    format<span class="token punctuation">:</span> <span class="token string">'YYYY年MM月DD日 hh:mm:ss'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">//点击显示（YYYY年MM月DD日 hh:mm）格式</span>
+<span class="token function">jeDate</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    dateCell<span class="token punctuation">:</span><span class="token string">"#ymd02"</span><span class="token punctuation">,</span>
+    format<span class="token punctuation">:</span><span class="token string">"YYYY年MM月DD日 hh:mm"</span><span class="token punctuation">,</span>
+    isTime<span class="token punctuation">:</span><span class="token boolean">true</span><span class="token punctuation">,</span>
+    festival<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    minDate<span class="token punctuation">:</span><span class="token string">"2014-09-19 00:00:00"</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">//点击显示 YYYY年格式</span>
+<span class="token function">jeDate</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    dateCell<span class="token punctuation">:</span><span class="token string">"#ymnian"</span><span class="token punctuation">,</span>
+    isinitVal<span class="token punctuation">:</span><span class="token boolean">true</span><span class="token punctuation">,</span>
+    format<span class="token punctuation">:</span><span class="token string">"YYYY年"</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">//点击显示 时分秒（hh:mm:ss）格式</span>
+<span class="token function">jeDate</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+	dateCell<span class="token punctuation">:</span><span class="token string">"#hm01"</span><span class="token punctuation">,</span> 
+	isinitVal<span class="token punctuation">:</span><span class="token boolean">true</span><span class="token punctuation">,</span> 
+	format<span class="token punctuation">:</span><span class="token string">"hh:mm:ss"</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">//点击显示 时分（hh:mm）格式</span>
+<span class="token function">jeDate</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+	dateCell<span class="token punctuation">:</span><span class="token string">"#hm02"</span><span class="token punctuation">,</span>  
+	format<span class="token punctuation">:</span><span class="token string">"hh:mm"</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code>
+</pre>
+    <h3 class="f18">日期风格样式</h3>
+    <blockquote>
+        skinCell，风格调用，CSS中增加了3种风格（红、绿、蓝）
+    </blockquote>
+    <div class="mt10 mb15 ovh">
+        <p class="mb15 ovh">
+            <span class="wstxt fl mr8">蓝色风格：</span><input class="workinput wicon mr25" id="skinblue" type="text" placeholder="YYYY年MM月DD日 hh:mm:ss" readonly="">
+            <span class="wstxt fl mr8">红色风格：</span><input class="workinput wicon mr25" id="skinred" type="text" placeholder="YYYY年MM月DD日 hh:mm:ss" readonly="">
+            <span class="wstxt fl mr8">绿色风格：</span><input class="workinput wicon mr25" id="skingreen" type="text" placeholder="YYYY年MM月DD日 hh:mm:ss" readonly="">
+        </p>
+    </div>
+<pre class="code ovh"><code class=" language-javascript">
+风格样式（jedateblue、jedatered、jedategreen）
+<span class="token comment" spellcheck="true">//蓝色风格</span>
+<span class="token function">jeDate</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    dateCell<span class="token punctuation">:</span> <span class="token string">'#skinblue'</span><span class="token punctuation">,</span>
+    isinitVal<span class="token punctuation">:</span><span class="token boolean">true</span><span class="token punctuation">,</span>
+    skinCell<span class="token punctuation">:</span><span class="token string">"jedateblue"</span><span class="token punctuation">,</span>
+    format<span class="token punctuation">:</span> <span class="token string">'YYYY年MM月DD日 hh:mm:ss'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//红色风格</span>
+<span class="token function">jeDate</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    dateCell<span class="token punctuation">:</span> <span class="token string">'#skinred'</span><span class="token punctuation">,</span>
+    skinCell<span class="token punctuation">:</span><span class="token string">"jedatered"</span><span class="token punctuation">,</span>
+    format<span class="token punctuation">:</span> <span class="token string">'YYYY年MM月DD日 hh:mm:ss'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//绿色风格</span>
+<span class="token function">jeDate</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    dateCell<span class="token punctuation">:</span> <span class="token string">'#skingreen'</span><span class="token punctuation">,</span>
+    skinCell<span class="token punctuation">:</span><span class="token string">"jedategreen"</span><span class="token punctuation">,</span>
+    format<span class="token punctuation">:</span> <span class="token string">'YYYY年MM月DD日 hh:mm:ss'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+</code>
+</pre>
+    <h3 class="f18">初始化日期加减N</h3>
+    <blockquote>
+        initAddVal ：[0]，默认为0，实则它可以有2个参数，也可以写成[ 0, "DD" ]<br>
+        参数一是我们要加减的值，参数二默认（"DD"）是时间类型 DD代表天（默认为天），hh代表小时，mm代表分钟<br><br>
+        <span class="red">注意：initAddVal 必须配合 isinitVal 且 isinitVal 为 true，才有作用</span>
+    </blockquote>
+    <div class="mt10 mb15 ovh">
+        <p class="mb15 ovh">
+            <span class="wstxt fl mr8">初始化日期加N天：</span><input class="workinput wicon mr25" id="chus01" type="text" placeholder="YYYY年MM月DD日 hh:mm:ss" readonly="">
+            <span class="wstxt fl mr8">初始化日期加N小时：</span><input class="workinput wicon mr25" id="chus02" type="text" placeholder="YYYY年MM月DD日 hh:mm:ss" readonly="">
+        </p>
+    </div>
+<pre class="code ovh"><code class=" language-javascript">
+<span class="token function">jeDate</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    dateCell<span class="token punctuation">:</span> <span class="token string">'#chus01'</span><span class="token punctuation">,</span>
+    isinitVal<span class="token punctuation">:</span><span class="token boolean">true</span><span class="token punctuation">,</span>
+    initAddVal<span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span>   <span class="token comment" spellcheck="true">//初始化日期加2天</span>
+    festival<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    format<span class="token punctuation">:</span> <span class="token string">'YYYY年MM月DD日 hh:mm:ss'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token function">jeDate</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    dateCell<span class="token punctuation">:</span> <span class="token string">'#chus02'</span><span class="token punctuation">,</span>
+    isinitVal<span class="token punctuation">:</span><span class="token boolean">true</span><span class="token punctuation">,</span>
+    initAddVal<span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token string">"hh"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>   <span class="token comment" spellcheck="true">//初始化日期加2小时</span>
+    festival<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    format<span class="token punctuation">:</span> <span class="token string">'YYYY年MM月DD日 hh:mm:ss'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+initAddVal ：<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>，默认为<span class="token number">0</span>，实则它可以有<span class="token number">2</span>个参数，也可以写成<span class="token punctuation">[</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">"DD"</span> <span class="token punctuation">]</span>
+<span class="token comment" spellcheck="true">//参数一是我们要加减的值，参数二默认（"DD"）是时间类型 DD代表天（默认为天），hh代表小时，mm代表分钟</span>
+<span class="token comment" spellcheck="true">//注意：initAddVal 必须配合 isinitVal 且 isinitVal 为 true，才有作用</span>
+</code>
+</pre>
+    <h3 class="f18">日期特殊控制</h3>
+    <blockquote>
+        以下的这种方式，时间初始化是不起作用的
+    </blockquote>
+    <div class="ovh">
+        <div class="mt10 mb15 ovh fl" id="charu" style="width: 50%">
+            <h4 class="b mb20">第一种方式</h4>
+            <p class="mb15 ovh">
+                <span class="wstxt fl">1、</span><input class="workinput wicon mr25" type="text" placeholder="YYYY年MM月DD日 hh:mm" readonly="" onclick="testShow(this);">
+                <span class="wstxt" style="background: #A5D2EC;padding: 0 8px;cursor: pointer;" id="onafter">添加一个</span>
+            </p>
+
+        </div>
+        <div class="mt10 mb15 ovh fl" style="width: 50%">
+            <h4 class="b mb20">第二种方式</h4>
+            <p class="mb15 ovh">
+                <span class="wstxt fl">1、</span><input class="workinput wicon mr25" type="text" id="tser01" placeholder="YYYY年MM月DD日 hh:mm:ss" readonly="" onclick="jeDate({dateCell:&#39;#tser01&#39;,isTime:true,format:&#39;YYYY-MM-DD hh:mm:ss&#39;})">
+            </p>
+            <p class="mb15 ovh">
+                <span class="wstxt fl">2、</span><input class="workinput wicon mr25" type="text" id="tser02" placeholder="YYYY年MM月DD日 hh:mm:ss" readonly="" onclick="jeDate({dateCell:&#39;#tser02&#39;,isTime:true,format:&#39;YYYY-MM-DD hh:mm:ss&#39;})">
+            </p>
+        </div>
+    </div>
+<pre class="code ovh"><code class=" language-javascript">
+【有两种方式】
+
+<span class="token comment" spellcheck="true">//第一种方式</span>
+<span class="token operator">&lt;</span>input <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"workinput wicon mr25"</span> type<span class="token operator">=</span><span class="token string">"text"</span> placeholder<span class="token operator">=</span><span class="token string">"YYYY年MM月DD日 hh:mm"</span>  readonly onclick<span class="token operator">=</span><span class="token string">"testShow(this);"</span><span class="token operator">&gt;</span>
+<span class="token keyword">function</span> <span class="token function">testShow</span><span class="token punctuation">(</span>elem<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token function">jeDate</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        dateCell<span class="token punctuation">:</span> elem<span class="token punctuation">,</span>
+        isClick<span class="token punctuation">:</span><span class="token boolean">false</span><span class="token punctuation">,</span>
+        format<span class="token punctuation">:</span> <span class="token string">'YYYY年MM月DD日 hh:mm'</span><span class="token punctuation">,</span>
+        minDate<span class="token punctuation">:</span> <span class="token string">'2014-06-16 23:59:59'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">//设定最小日期为当前日期</span>
+        festival<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+        maxDate<span class="token punctuation">:</span> <span class="token string">'2099-06-16 23:59:59'</span> <span class="token comment" spellcheck="true">//最大日期</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">//第二种方式</span>
+<span class="token operator">&lt;</span>input type<span class="token operator">=</span><span class="token string">"text"</span> id<span class="token operator">=</span><span class="token string">"tser01"</span> placeholder<span class="token operator">=</span><span class="token string">"YYYY年MM月DD日 hh:mm:ss"</span>  readonly
+    onclick<span class="token operator">=</span><span class="token string">"jeDate({dateCell:'#tser01',isTime:true,format:'YYYY-MM-DD hh:mm:ss'})"</span><span class="token operator">&gt;</span>
+
+<span class="token operator">&lt;</span>input type<span class="token operator">=</span><span class="token string">"text"</span> id<span class="token operator">=</span><span class="token string">"tser02"</span> placeholder<span class="token operator">=</span><span class="token string">"YYYY年MM月DD日 hh:mm:ss"</span>  readonly
+    onclick<span class="token operator">=</span><span class="token string">"jeDate({dateCell:'#tser02',isTime:true,format:'YYYY-MM-DD hh:mm:ss'})"</span><span class="token operator">&gt;</span>
+</code>
+</pre>
+    <h3 class="f18">日期加减N天</h3>
+    <blockquote>
+        jeDate.addDate(time,num,type)<br>
+        参数一（time）是我们选中后得到的值，参数二（num）是我们选中后得到值的基础上加N天(如果num为负数则为减N天)，参数三（type）是时间类型 DD代表天（默认为天），hh代表小时，mm代表分钟<br><br>
+        以下的这种方式，时间初始化是不起作用的
+    </blockquote>
+    <div class="mt10 mb15 ovh" id="charu">
+        <p class="mb15 ovh">
+            <span class="wstxt fl mr8">获取选中时间加N天：</span><input class="workinput wicon mr25" id="xuann" type="text" placeholder="YYYY年MM月DD日 hh:mm:ss" readonly="">
+        </p>
+
+    </div>
+<pre class="code ovh"><code class=" language-javascript">
+<span class="token function">jeDate</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    dateCell<span class="token punctuation">:</span> <span class="token string">'#xuann'</span><span class="token punctuation">,</span>
+    format<span class="token punctuation">:</span> <span class="token string">'YYYY-MM-DD hh:mmss'</span><span class="token punctuation">,</span>
+    choosefun<span class="token punctuation">:</span><span class="token keyword">function</span><span class="token punctuation">(</span>elem<span class="token punctuation">,</span> val<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        elem<span class="token punctuation">.</span>value <span class="token operator">=</span> jeDate<span class="token punctuation">.</span><span class="token function">addDate</span><span class="token punctuation">(</span>val<span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//在得到值的基础上加3天，(如果参数二为负数则为减N天)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+jeDate<span class="token punctuation">.</span><span class="token function">addDate</span><span class="token punctuation">(</span>time<span class="token punctuation">,</span> num<span class="token punctuation">,</span> type<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//参数一（time）是我们选中后得到的值，参数二（num）是我们选中后得到值的基础上加想要的时间，</span>
+<span class="token comment" spellcheck="true">//参数三（type）是时间类型 "DD"代表天（默认为天），"hh"代表小时，"mm"代表分钟</span>
+
+</code>
+</pre>
+    <h3 class="f18">自定义日期</h3>
+    <div class="mt10 mb10 ovh">
+    <span class="wstxt">自定义年月（YYYY-MM）格式：</span><input type="text" class="workinput wicon mr25" id="custom1" readonly="">
+    <span class="wstxt">给日期标注点：</span><input type="text" class="workinput wicon mr25" placeholder="给日期标注点" id="custom3" readonly="">
+     <span class="wstxt">点击图标：</span><input class="workinput" id="test2" type="text" placeholder="点击图标显示" readonly=""><span class="wspan wicon" onclick="jeDate({dateCell:&#39;#test2&#39;,isTime:true,format:&#39;YYYY-MM-DD hh:mm:ss&#39;})"></span>
+    </div>
+    <div class="mb15 ovh">
+    <span class="wstxt">限定在昨天到明天：</span><input class="workinput wicon mr25" id="custom2" type="text" placeholder="限定在昨天到明天" readonly="">
+    <span class="wstxt">限定在今天：</span><input class="workinput wicon mr25" id="customToday" type="text" placeholder="限定在今天" readonly="">
+    <span class="wstxt">日期（YYYYMMDD）：</span><input class="workinput wicon mr25" id="customymd" type="text" placeholder="YYYYMMDD" readonly="">
+    </div>
+<pre class="code ovh"><code class=" language-javascript"> 
+【自定义日期格式】
+<span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"workinput wicon"</span> id<span class="token operator">=</span><span class="token string">"custom1"</span><span class="token operator">&gt;</span><span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
+<span class="token operator">&lt;</span>script<span class="token operator">&gt;</span>
+<span class="token function">jeDate</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    dateCell<span class="token punctuation">:</span> <span class="token string">'#custom1'</span><span class="token punctuation">,</span>
+    isinitVal<span class="token punctuation">:</span><span class="token boolean">true</span><span class="token punctuation">,</span>
+    format<span class="token punctuation">:</span> <span class="token string">'YYYY/MM'</span> <span class="token comment" spellcheck="true">// 分隔符可以任意定义，该例子表示只显示年月</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+
+【给日期标注点】
+<span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"workinput wicon"</span> id<span class="token operator">=</span><span class="token string">"custom3"</span><span class="token operator">&gt;</span><span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
+<span class="token function">jeDate</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    dateCell<span class="token punctuation">:</span> <span class="token string">'#custom3'</span><span class="token punctuation">,</span>
+    format<span class="token punctuation">:</span> <span class="token string">'YYYY-MM-DD'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 分隔符可以任意定义，该例子表示只显示年月</span>
+    marks<span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token string">'2015-01-03'</span><span class="token punctuation">,</span><span class="token string">'2016-01-01'</span><span class="token punctuation">,</span><span class="token string">'2016-01-10'</span><span class="token punctuation">,</span><span class="token string">'2016-01-15'</span><span class="token punctuation">,</span><span class="token string">'2016-02-15'</span><span class="token punctuation">,</span><span class="token string">'2016-03-10'</span><span class="token punctuation">,</span><span class="token string">'2016-04-18'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> 
+    <span class="token comment" spellcheck="true">//marks给日期做标注，特别说明（日期不足2位的必须加0，如：'2015-1-3' 要写成 '2015-01-03' 否则标注不成功）</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+【图标触发日期】
+<span class="token operator">&lt;</span>input <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"workinput"</span> id<span class="token operator">=</span><span class="token string">"test2"</span> type<span class="token operator">=</span><span class="token string">"text"</span> placeholder<span class="token operator">=</span><span class="token string">"请选择"</span>  readonly<span class="token operator">&gt;</span>
+<span class="token operator">&lt;</span>span <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"wicon"</span> onClick<span class="token operator">=</span><span class="token string">"jeDate({dateCell:'#test2',isTime:true,format:'YYYY-MM-DD hh:mm:ss'})"</span><span class="token operator">&gt;</span><span class="token operator">&lt;</span><span class="token operator">/</span>span<span class="token operator">&gt;</span>
+
+【日期范围限定在昨天到明天】
+<span class="token operator">&lt;</span>input <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"workinput wicon"</span> id<span class="token operator">=</span><span class="token string">"custom2"</span> type<span class="token operator">=</span><span class="token string">"text"</span> placeholder<span class="token operator">=</span><span class="token string">"请选择"</span> readonly<span class="token operator">&gt;</span>
+<span class="token function">jeDate</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    dateCell<span class="token punctuation">:</span> <span class="token string">'#custom2'</span><span class="token punctuation">,</span>
+    format<span class="token punctuation">:</span><span class="token string">"YYYY-MM-DD"</span><span class="token punctuation">,</span>
+    minDate<span class="token punctuation">:</span> jeDate<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">//0代表今天，-1代表昨天，-2代表前天，以此类推</span>
+    maxDate<span class="token punctuation">:</span> jeDate<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//1代表明天，2代表后天，以此类推</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+【日期范围限定在今天】
+<span class="token function">jeDate</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    dateCell<span class="token punctuation">:</span> <span class="token string">'#customToday'</span><span class="token punctuation">,</span>
+	format<span class="token punctuation">:</span><span class="token string">"YYYY-MM-DD"</span><span class="token punctuation">,</span>
+    minDate<span class="token punctuation">:</span> jeDate<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">//0代表今天，-1代表昨天，-2代表前天，以此类推</span>
+    maxDate<span class="token punctuation">:</span> jeDate<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//1代表明天，2代表后天，以此类推</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+【日期 YYYYMMDD 】
+<span class="token function">jeDate</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    dateCell<span class="token punctuation">:</span> <span class="token string">'#customymd'</span><span class="token punctuation">,</span>
+    isinitVal<span class="token punctuation">:</span><span class="token boolean">true</span><span class="token punctuation">,</span>
+    format<span class="token punctuation">:</span><span class="token string">"YYYY-MM-DD"</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">&gt;</span>
+</code>
+</pre>
+    <h3 class="f18">清空输入框，返回预设日期</h3>
+    <blockquote>
+        startMin:"", 清除日期后返回到预设的最小日期<br>
+        startMax:"", 清除日期后返回到预设的最大日期<br>
+        返回到预设的日期，需要clearRestore为true,且输入框非空的情况下有效<br>
+        <span class="red">配合开始日期与结束日期，效果最好</span>
+    </blockquote>
+    <div class="mt10 mb15 ovh">
+        <p class="mb15 ovh">
+            <span class="wstxt fl mr8">返回预设日期：</span><input class="workinput wicon mr25" id="restore" type="text" placeholder="YYYY年MM月DD日 hh:mm:ss" readonly="">
+        </p>
+    </div>
+<pre class="code ovh"><code class=" language-javascript">
+<span class="token function">jeDate</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    dateCell<span class="token punctuation">:</span> <span class="token string">'#restore'</span><span class="token punctuation">,</span>
+    isClear<span class="token punctuation">:</span><span class="token boolean">true</span><span class="token punctuation">,</span>
+    minDate<span class="token punctuation">:</span>jeDate<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span>          <span class="token comment" spellcheck="true">//设定最小日期为当前日期,</span>
+    maxDate<span class="token punctuation">:</span><span class="token string">'2019-06-16 23:59:59'</span><span class="token punctuation">,</span>  <span class="token comment" spellcheck="true">//最大日期</span>
+    startMin<span class="token punctuation">:</span>jeDate<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span>        <span class="token comment" spellcheck="true">//设定返回预设最小日期为当前日期的前3天，（或者直接设置为最小日期jeDate.now(0)），这里随自己设置</span>
+    startMax<span class="token punctuation">:</span><span class="token string">'2019-06-16 23:59:59'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">//设定返回预设最大日期与（最大日期）相同</span>
+    format<span class="token punctuation">:</span> <span class="token string">'YYYY年MM月DD日 hh:mm:ss'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+</code>
+</pre>
+    <h3 class="f18">开始日期与结束日期</h3>
+    <div class="mt10 mb10 ovh">
+    <span class="wstxt">开始日期：</span><input type="text" class="workinput wicon mr25" id="inpstart" placeholder="选择开始日期" readonly="">
+    <span class="wstxt">结束日期：</span><input type="text" class="workinput wicon mr25" id="inpend" placeholder="选择结束日期" readonly="">
+    </div>
+<pre class="code ovh"><code class=" language-javascript"> 
+【自定义日期格式】
+<span class="token operator">&lt;</span>span <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"wstxt"</span><span class="token operator">&gt;</span>开始日期：<span class="token operator">&lt;</span><span class="token operator">/</span>span<span class="token operator">&gt;</span><span class="token operator">&lt;</span>input type<span class="token operator">=</span><span class="token string">"text"</span> <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"workinput wicon mr25"</span> id<span class="token operator">=</span><span class="token string">"inpstart"</span> readonly<span class="token operator">&gt;</span>
+<span class="token operator">&lt;</span>span <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"wstxt"</span><span class="token operator">&gt;</span>结束日期：<span class="token operator">&lt;</span><span class="token operator">/</span>span<span class="token operator">&gt;</span><span class="token operator">&lt;</span>input type<span class="token operator">=</span><span class="token string">"text"</span> <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"workinput wicon mr25"</span> id<span class="token operator">=</span><span class="token string">"inpend"</span> readonly<span class="token operator">&gt;</span>
+<span class="token operator">&lt;</span>script<span class="token operator">&gt;</span>
+<span class="token keyword">var</span> start <span class="token operator">=</span> <span class="token punctuation">{</span>
+    dateCell<span class="token punctuation">:</span> <span class="token string">'#inpstart'</span><span class="token punctuation">,</span>
+    format<span class="token punctuation">:</span> <span class="token string">'YYYY-MM-DD hh:mm:ss'</span><span class="token punctuation">,</span>
+    minDate<span class="token punctuation">:</span> jeDate<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">//设定最小日期为当前日期</span>
+    isinitVal<span class="token punctuation">:</span><span class="token boolean">true</span><span class="token punctuation">,</span>
+    festival<span class="token punctuation">:</span><span class="token boolean">true</span><span class="token punctuation">,</span>
+    ishmsVal<span class="token punctuation">:</span><span class="token boolean">false</span><span class="token punctuation">,</span>
+    maxDate<span class="token punctuation">:</span> <span class="token string">'2099-06-30 23:59:59'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">//最大日期</span>
+    choosefun<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>elem<span class="token punctuation">,</span>datas<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        end<span class="token punctuation">.</span>minDate <span class="token operator">=</span> datas<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//开始日选好后，重置结束日的最小日期</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> end <span class="token operator">=</span> <span class="token punctuation">{</span>
+    dateCell<span class="token punctuation">:</span> <span class="token string">'#inpend'</span><span class="token punctuation">,</span>
+    format<span class="token punctuation">:</span> <span class="token string">'YYYY年MM月DD日 hh:mm:ss'</span><span class="token punctuation">,</span>
+    minDate<span class="token punctuation">:</span> jeDate<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">//设定最小日期为当前日期</span>
+    festival<span class="token punctuation">:</span><span class="token boolean">true</span><span class="token punctuation">,</span>
+    maxDate<span class="token punctuation">:</span> <span class="token string">'2099-06-16 23:59:59'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">//最大日期</span>
+    choosefun<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>elem<span class="token punctuation">,</span>datas<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        start<span class="token punctuation">.</span>maxDate <span class="token operator">=</span> datas<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//将结束日的初始值设定为开始日的最大日期</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token function">jeDate</span><span class="token punctuation">(</span>start<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">jeDate</span><span class="token punctuation">(</span>end<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">&gt;</span>
+</code>
+</pre>
+<!----------------end------------->
+
+</div>
+</div>
+<div class="footwork">
+     <div class="woauto f16">
+     <p>Powered by jayui.com ©2014-2015 </p>
+     <p>网站内容版权均归 jayui网版权所有</p>
+     </div>
+</div>
+
+<script type="text/javascript">
+
+jeDate({
+    dateCell: '#ymd01',
+    isinitVal:true,
+    festival: true,
+    format: 'YYYY年MM月DD日 hh:mm:ss'
+});
+jeDate({
+	dateCell:"#ymd02",
+	format:"YYYY年MM月DD日 hh:mm",
+	isTime:true,
+	festival: true, //显示节日
+	minDate:"2014-09-19 00:00:00"
+})
+
+jeDate({
+    dateCell:"#ymnian",
+    isinitVal:true,
+    format:"YYYY年"
+});
+
+jeDate({
+    dateCell: '#hm01',
+    isinitVal:true,
+    format: 'hh:mm:ss'
+});
+jeDate({
+    dateCell: '#hm02',
+    format: 'hh:mm'
+});
+
+jeDate({
+    dateCell: '#skinblue',
+    isinitVal:true,
+    skinCell:"jedateblue",
+    format: 'YYYY年MM月DD日 hh:mm:ss'
+});
+jeDate({
+    dateCell: '#skinred',
+    skinCell:"jedatered",
+    format: 'YYYY年MM月DD日 hh:mm:ss'
+});
+jeDate({
+    dateCell: '#skingreen',
+    skinCell:"jedategreen",
+    format: 'YYYY年MM月DD日 hh:mm:ss'
+});
+
+jeDate({
+    dateCell: '#chus01',
+    isinitVal:true,
+    initAddVal:[2],
+    festival: true,
+    format: 'YYYY年MM月DD日 hh:mm:ss'
+});
+
+jeDate({
+    dateCell: '#chus02',
+    isinitVal:true,
+    initAddVal:[2,"hh"],
+    festival: true,
+    format: 'YYYY年MM月DD日 hh:mm:ss'
+});
+
+function testShow(elem){
+    jeDate({
+        dateCell: elem,
+        format: 'YYYY年MM月DD日 hh:mm',
+        minDate: '2014-06-16 23:59:59', //设定最小日期为当前日期
+        festival: true,
+        maxDate: '2099-06-16 23:59:59' //最大日期
+    });
+}
+var ti = 2;
+document.getElementById("onafter").onclick = function(){
+    var charu = document.getElementById("charu"), ps = document.createElement("p"),
+        len = charu.childNodes;
+    ps.innerHTML = '<span class="wstxt fl">'+ti+'、</span><input class="workinput wicon mr25" type="text" placeholder="YYYY年MM月DD日 hh:mm"  readonly onclick="testShow(this);">';
+    ps.className = "mb15 ovh";
+    ti++;
+    charu.insertBefore(ps,null);
+}
+
+jeDate({
+    dateCell: '#xuann',
+    format: 'YYYY-MM-DD hh:mm:ss', // 分隔符可以任意定义，该例子表示只显示年月
+    choosefun:function(elem, val) {
+        elem.value = jeDate.addDate(val,3);
+    }
+});
+
+jeDate({
+    dateCell: '#restore',
+    isClear:true,
+    minDate:jeDate.now(0), //设定最小日期为当前日期,
+    maxDate:'2019-06-16 23:59:59',  //最大日期
+    startMin:jeDate.now(-3),//设定返回预设最小日期为当前日期的前五天，（或者直接设置为最小日期jeDate.now(0)），这里随自己设置
+    startMax:'2019-06-16 23:59:59',//设定返回预设最大日期与（最大日期）相同
+    format: 'YYYY年MM月DD日 hh:mm:ss'
+});
+
+jeDate({
+    dateCell: '#custom1',
+	isinitVal:true,
+    format: 'YYYY/MM' // 分隔符可以任意定义，该例子表示只显示年月 
+});
+
+jeDate({
+    dateCell: '#custom3',
+    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+    marks:['2015-01-03','2016-01-01','2016-01-10','2016-01-15','2016-02-15','2016-02-20','2016-03-10','2016-03-18','2016-04-18','2016-04-25','2016-05-10','2016-05-19','2016-06-15','2016-06-25','2016-07-18','2016-07-25','2016-08-10','2016-08-19','2016-09-15','2016-09-25','2016-10-15','2016-10-20','2016-10-28'],
+});
+
+jeDate({
+    dateCell: '#custom2',
+	format:"YYYY-MM-DD",
+    minDate: jeDate.now(-1), //0代表今天，-1代表昨天，-2代表前天，以此类推
+    maxDate: jeDate.now(1) //1代表明天，2代表后天，以此类推
+});
+
+jeDate({
+    dateCell: '#customToday',
+	format:"YYYY-MM-DD",
+    minDate: jeDate.now(0), //0代表今天，-1代表昨天，-2代表前天，以此类推
+    maxDate: jeDate.now(0) //1代表明天，2代表后天，以此类推
+});
+
+jeDate({
+    dateCell: '#customymd',
+    isinitVal:true,
+    format:"YYYYMMDD"
+});
+
+var start = {
+    dateCell: '#inpstart',
+    format: 'YYYY-MM-DD hh:mm:ss',
+    minDate: jeDate.now(0), //设定最小日期为当前日期
+    festival:true,
+    isinitVal:true,
+    maxDate: '2099-06-30 23:59:59', //最大日期
+    choosefun: function(elem,datas){
+        end.minDate = datas; //开始日选好后，重置结束日的最小日期
+    }
+};
+var end = {
+    dateCell: '#inpend',
+    format: 'YYYY年MM月DD日 hh:mm:ss',
+    minDate: jeDate.now(0), //设定最小日期为当前日期
+    festival:true,
+    isinitVal:true,
+    maxDate: '2099-06-16 23:59:59', //最大日期
+    choosefun: function(elem,datas){
+        start.maxDate = datas; //将结束日的初始值设定为开始日的最大日期
+    }
+};
+jeDate(start);
+jeDate(end);
+
+//展示当前版本
+$('#version').html(jeDate.version);
+
+//获取下载数
+$.get('http://www.jayui.com/downstatis/downstatis.php?name=jedate', function(res){
+    $('#downnum').html(res.totals);
+}, 'jsonp');
+
+//记录下载
+$('.jedatedown').on('click',function(){
+    $.get('http://www.jayui.com/downstatis/downstatis.php?name=jedate&type=yes');
+});
+</script>
+<div style="display:none"><script src="./src/stat.php" language="JavaScript"></script></div>
+
+
+</body></html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<style type="text/css">
+			/*必须css*/
+			html,body{height:100%;overflow:hidden;}
+			#container{position: relative;height: 200%;-webkit-transform: translate3d(0,-70px,0);transform: translate3d(0,-70px,0);}
+			.container-reset {-webkit-transition: -webkit-transform 0.5s; transition: transform 0.5s; } 
+			.load-wrap {width: 100%; height: 70px; position: relative; }
+			.loading-dot {width: 1em; height: 1em; background: #3498db; border-radius: 0.5em; position: absolute; left: 50%; top: 16px; margin-left: -0.5em; z-index: 1;}
+			.loading-cir {width: 2em; height: 2em; background: none; border: 1px solid #3498db; border-radius: 2em; position: absolute; left: 50%; top: 0px; margin-left: -1em; -webkit-transform: translate3d(0,-100%,0); transform: translate3d(0,-100%,0); z-index: 0; }
+			.loading-title {width: 100%; font-size: 12px; text-align: center; position: absolute; bottom: 8px; height: 20px; color: #999999; line-height: 20px; }
+			.loading-cir.loading {position: absolute; top: 8px; -webkit-animation: rotateplane .8s infinite linear; animation: rotateplane .8s infinite linear; }
+
+			@-webkit-keyframes rotateplane {
+				0% { -webkit-transform: perspective(100px) }
+				100% { -webkit-transform: perspective(100px) rotateY(180deg) }
+			}
+			@keyframes rotateplane {
+				0% {
+					-webkit-transform: perspective(100px) rotateY(0deg);
+							transform: perspective(100px) rotateY(0deg);
+
+				}
+				100% {
+					-webkit-transform: perspective(100px) rotateY(180deg);
+							transform: perspective(100px) rotateY(180deg);
+				}
+			}
+			/*非必须css*/
+			*{margin:0;padding:0;}
+			#list li{padding:12px 15px;border-bottom:1px solid #c8c8c8;list-style:none;}
+		</style>
+	</head>
+	<body>
+		<div id="container">
+			<div class="load-wrap">
+				<div class="loading-dot"></div>
+				<div class="loading-cir"></div>
+				<div class="loading-title"></div>
+			</div>
+	        <ul id="list">
+	            <li> 单行列表标题效果 </li>
+	            <li> 单行列表标题效果 </li>
+	            <li> 单行列表标题效果 </li>
+	        </ul>
+		</div>
+	</body>
+	<script src="js/pullrefresh.js"></script>
+	<script type="text/javascript">
+		var pullRefresh = new auiPullToRefresh({
+			callback: loadingCallback,
+			textDown:'下拉刷新'
+		});
+		function loadingCallback(status) {
+			if(status=='success'){
+				setTimeout(function(){
+					var wrap = document.getElementById("list");
+					var lis = wrap.querySelectorAll('li');
+					for (var i = lis.length, length = i + 1; i < length; i++) {
+						var html = '<li>新加载'+(i+1)+'</li>';
+						wrap.insertAdjacentHTML('afterbegin', html);
+					}
+					pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+				},1500);
+			}
+		}
+	</script>
+</html>

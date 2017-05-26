@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="Keywords" content="">
+	<meta name="Description" content="">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-sclae=1.0,user-scalable=0">
+	<!-- 必须引入的文件 -->
+	<link rel="stylesheet" type="text/css" href="css/selectbox.css">
+	<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+	<title>XuLuo</title>
+	<style>
+		select{width:150px;}
+		.ui-selectbox{margin:20px;}
+	</style>
+</head>
+<body>
+	<select id="sl">
+		<option value="0">请选择</option>
+		<option value="1">本地1</option>
+		<option value="2">本地2</option>
+		<option value="3">本地3</option>
+		<option value="4">本地4</option>
+	</select>
+	<!-- 必须引入的js -->
+	<script type="text/javascript" src="js/selectbox-min.js"></script>
+	<script type="text/javascript">
+		// ajax
+		var obj=document.getElementById('sl');
+		selectbox(obj);
+		$.ajax({
+			url:"json/json.txt",
+			success:function(data){
+				data=eval("("+data+")");
+				obj.options[0]=new Option('请选择','0');
+				for(var name in data){
+					obj.options[obj.length]=new Option(data[name],name);
+				}
+			}
+		});
+	</script>
+</body>
+</html>

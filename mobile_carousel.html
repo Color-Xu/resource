@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="Keywords" content="">
+	<meta name="Description" content="">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>XuLuo</title>
+	<style>
+		#carousel{position:relative;max-width:800px;width:100%;}
+		li img{width:100%;}
+		.cir{position: absolute;left:50%;bottom:5px;}
+		.cir a{display:inline-block;width:10px;height:10px;background:#fff;opacity:0.5;border-radius:50%;}
+		.cir a.on{background:#fff;opacity:1;}
+	</style>
+</head>
+<body>
+	<h3>必须引入TouchSlide.js</h3>
+	<h3>效果查看</h3>
+	<div id="carousel">
+		<ul>
+			<li><img src="images/bnr1.jpg"></li>
+			<li><img src="images/bnr2.jpg"></li>
+			<li><img src="images/bnr3.jpg"></li>
+		</ul>
+		<div class="cir">
+			<a href="javascript:;"></a>
+			<a href="javascript:;"></a>
+			<a href="javascript:;"></a>
+		</div>
+	</div>
+	<!-- 必须引入的js -->
+	<script type="text/javascript" src="js/TouchSlide.js"></script>
+	<script type="text/javascript">
+		TouchSlide({ 
+			slideCell:"#carousel",
+			titCell:".cir a", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+			mainCell:"ul", 
+			effect:"left",
+			interTime:3000, 
+			autoPlay:true,//自动播放
+		});
+	</script>
+</body>
+</html>

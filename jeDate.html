@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="Keywords" content="">
+	<meta name="Description" content="">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="css/jedate.css">
+	<script type="text/javascript" src="js/jedate.min.js"></script>
+	<title>XuLuo</title>
+	<style>
+		.jedate{background:url(images/jedate.png) right center no-repeat;width:240px;height:25px;
+			line-height:25px;border:1px #A5D2EC solid;padding:0 5px;}
+	</style>
+</head>
+<body>
+	<h3>必须引入jedate.css、jedate.min.js</h3>
+	<h3><a href="doc/jedate/index.htm" style="text-decoration:underline;">插件API</a></h3>
+	<input class="jedate" type="text" placeholder="请选择"  readonly>
+	<script type="text/javascript">
+		var a=-6;
+		var b=1;
+		jeDate({
+		    dateCell:".jedate",
+		    format:"YYYY-MM-DD",
+		    isTime:false,
+		    clearRestore:false,
+		    minDate: jeDate.now(a),//0代表今天，-1代表昨天，-2代表前天，以此类推
+    		maxDate: jeDate.now(b)//1代表明天，2代表后天，以此类推
+		});
+	</script>
+</body>
+</html>

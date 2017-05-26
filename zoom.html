@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta charset="UTF-8">
+	<meta name="Keywords" content="">
+	<meta name="Description" content="">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-sclae=1.0,user-scalable=0">
+	<title>商品图放大</title>
+	<style>
+		*{margin: 0;padding: 0;font-family: 'microsoft yahei';list-style: none;}
+		a{text-decoration: none;}
+		.bnr{width: 300px;height: 360px;margin: 100px auto 0 auto;position: relative;}
+		.bnr .hidden{height: 300px;width:100%;margin: 0 auto;overflow: hidden;position: relative;}
+		.bnr .imgul{position: absolute;left: 0;top:0;}
+		.bnr .imgul li{width: 300px;height: 300px;float: left;line-height: 200px;text-align: center;color: #fff;}
+		.bnr .btn{display: inline-block;font-size: 50px;font-family: 'STHeiti';position: absolute;bottom: 5px;color: #280000;
+		margin-top: -29px;}
+		.bnr .pre{left:-40px;}
+		.bnr .next{right: -40px;}
+		.bnr .cir li{width: 50px;height: 48px;float: left;text-align: center;}
+		.bnr .cir img{width: 48px;}
+		.bnr .cir .curr img{border: 3px solid #959595;width: 42px;}
+		#selector{position:absolute;cursor:crosshair;filter:alpha(opacity=15);opacity:0.15;background-color:#000;border:1px solid #fff;
+		width:200px; height:180px;display: none;}
+		#bigView{position:absolute;border: 1px solid #959595; overflow: hidden; z-index:999;display:none;}
+		#bigView img{position:absolute;}
+	</style>
+</head>
+<body>
+	<h1 style="margin:100px auto;display: table;">鼠标移到商品图，商品图放大</h1>
+	<div class="bnr">
+		<div class="hidden">
+			<ul class="imgul">				
+				<li><img src="./images/mid/01.jpg" alt=""></li>
+				<li><img src="./images/mid/02.jpg" alt=""></li>
+				<li><img src="./images/mid/03.jpg" alt=""></li>
+				<li><img src="./images/mid/04.jpg" alt=""></li>
+				<li><img src="./images/mid/05.jpg" alt=""></li>
+				<li><img src="./images/mid/06.jpg" alt=""></li>
+			</ul>
+			<div id="selector"></div>
+		</div>	
+		<a href="javascript:;" class="pre btn"><</a><a href="javascript:;" class="next btn">></a>
+		<ul class="cir">
+			<li><img src="./images/mid/01.jpg" alt=""></li>
+			<li><img src="./images/mid/02.jpg" alt=""></li>
+			<li><img src="./images/mid/03.jpg" alt=""></li>
+			<li><img src="./images/mid/04.jpg" alt=""></li>
+			<li><img src="./images/mid/05.jpg" alt=""></li>
+			<li><img src="./images/mid/06.jpg" alt=""></li>
+		</ul>
+		<div id="bigView"><img width="600" height="600" alt="" src="" /></div>
+	</div>
+	<script src="js/jquery-1.8.3.min.js" type="text/javascript"></script>
+	<script src="js/base.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){	
+		    carousel('.bnr', '.bnr .imgul', '.bnr .cir', '.bnr .pre', '.bnr .next', 'curr', false);
+		    var $divWidth = $("#selector").width(); //选择器宽度
+		    var $divHeight = $("#selector").height(); //选择器高度
+		    var $imgWidth = $(".bnr .imgul img").width(); //中图宽度
+		    var $imgHeight = $(".bnr .imgul img").height(); //中图高度
+		    var $viewImgWidth = $viewImgHeight = $height = null; //IE加载后才能得到 大图宽度 大图高度 大图视窗高度
+		    $(".bnr .imgul img").load(function(){
+		    	 $imgWidth = $(".bnr .imgul img").width(); //中图宽度
+		    	 $imgHeight = $(".bnr .imgul img").height(); //中图高度
+		    })
+		    //大视窗看图
+		    function mouseOver(e) {
+		        if ($("#selector").css("display") == "none") {
+		            $("#selector,#bigView").show();
+		        }	        
+		        $("#selector").css(fixedPosition(e));   
+		        e.stopPropagation();
+		    }
+		    function mouseOut(e) {
+		        if ($("#selector").css("display") != "none") {
+		            $("#selector,#bigView").hide();
+		        }
+		        e.stopPropagation();
+		    }
+		    $(".bnr .imgul img").mouseover(mouseOver); //中图事件
+		    $(".bnr .imgul img,#selector").mousemove(mouseOver).mouseout(mouseOut); //选择器事件
+	    
+		    $('.bnr .imgul img').mousemove(function(){	
+		    	$("#bigView img").attr("src",$('.bnr .imgul img').eq($('.bnr .cir li.curr').index()).attr('src').replace("mid", "big"));
+
+		    })
+		    $('.bnr .cir li img').mousemove(function(){
+		    	$("#bigView img").attr("src",$('.bnr .imgul img').eq($('.bnr .cir li.curr').index()).attr('src').replace("mid", "big"));
+		    })
+		    $("#bigView").scrollLeft(0).scrollTop(0);
+		    
+		    function fixedPosition(e) {
+		        if (e == null) {
+		            return;
+		        }
+		        var $imgLeft = $(".bnr .hidden").offset().left; //中图左边距
+		        var $imgTop = $(".bnr .hidden").offset().top; //中图上边距
+		        X = e.pageX - $imgLeft - $divWidth / 2; //selector顶点坐标 X
+		        Y = e.pageY - $imgTop - $divHeight / 2; //selector顶点坐标 Y
+		        X = X < 0 ? 0 : X;
+		        Y = Y < 0 ? 0 : Y;
+		        X = X + $divWidth > $imgWidth ? $imgWidth - $divWidth : X;
+		        Y = Y + $divHeight > $imgHeight ? $imgHeight - $divHeight : Y;
+
+		        if ($viewImgWidth == null) {
+		        		$viewImgWidth = $("#bigView img").outerWidth();
+		            	$viewImgHeight = $("#bigView img").height();		                      
+		            if ($viewImgWidth < 200 || $viewImgHeight < 200) {
+		                $viewImgWidth = $viewImgHeight = 800;
+		            }
+		            $height = $divHeight * $viewImgHeight / $imgHeight;
+		            $("#bigView").width($divWidth * $viewImgWidth / $imgWidth);
+		            $("#bigView").height($height);
+		        }
+		        var scrollX = X * $viewImgWidth / $imgWidth;
+		        var scrollY = Y * $viewImgHeight / $imgHeight;
+		        $("#bigView img").css({ "left": scrollX * -1, "top": scrollY * -1 });
+		        $("#bigView").css({ "top": -5, "left": $(".bnr").width()+50});
+
+		        return { left: X, top: Y };
+		    }
+		});
+	</script>
+</body>
+</html>

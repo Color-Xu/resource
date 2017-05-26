@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>document</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+	<style>
+		*{margin: 0;padding: 0;}
+		ul,li{list-style: none;}
+		body{line-height:24px;font:14px Helvetica Neue,Helvetica,PingFang SC,\5FAE\8F6F\96C5\9ED1,Tahoma,Arial,sans-serif}
+		input,a{outline: 0;font-family: inherit;font-size: inherit;}
+		.form{margin: 50px auto;width: 400px;}
+		.form li{overflow: hidden;margin-bottom: 10px;}
+		.form label{float: left;height: 32px;line-height: 32px;width: 80px;text-align: right;}
+		.form .input{float: left;margin-left: 10px;}
+		.form .input input[type='text']{height: 30px;line-height: 30px;border: 1px solid #e6e6e6;border-radius: 2px;padding-left: 10px;width: 190px;-webkit-transition: border-color .3s cubic-bezier(.65,.05,.35,.5);transition: border-color .3s cubic-bezier(.65,.05,.35);}
+		.form .input input[type='text']:focus{border-color:#C9C9C9;}
+		.form .msg{border: 1px solid #D3D4D3;width: 160px;border-radius: 2px;text-align: center;padding: 15px 10px;position: absolute;left: 50%;margin-left: -90px;top: 50%;}
+	</style>
+</head>
+<body>
+	<ul class="form">
+		<li>
+			<label>姓名</label>
+			<div class="input">
+				<input type="text" onblur="valForm.name(this)">
+			</div>
+		</li>
+		<li>
+			<label>身份证号码</label>
+			<div class="input">
+				<input type="text" onblur="valForm.idcard(this)">
+			</div>
+		</li>
+	</ul>
+	<script type="text/javascript">
+		function valForm(){
+			var timer=null;
+			this.msg=function(text){
+				clearTimeout(timer);
+				$('.form .msg').remove();
+				$('.form').append("<div class='msg'>"+text+"</div>");
+				timer=setTimeout(function(){
+					$('.form .msg').slideUp(300,function(){
+						$('.form .msg').remove();
+					});
+				},3000);
+			};
+			this.empty=function(_this){
+				if($(_this).val()==''){
+					$('.msg').html($(_this).parent().prev().html()+'不能为空');
+				}
+			};
+			this.name=function(_this){
+				var reg=/^[\u4e00-\u9fa5]+(·[\u4e00-\u9fa5]+)*$/;
+				if(reg.test($(_this).val())==false){
+					this.msg('姓名不合法');
+				}
+				this.empty(_this);
+			};
+			this.idcard=function(_this){
+				//15位和18位身份证号码的正则表达式
+				var regIdCard=/^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/;
+
+				//如果通过该验证，说明身份证格式正确，但准确性还需计算
+				if(regIdCard.test($(_this).val())){
+				  if($(_this).val().length==18){
+				  	var idCardWi=new Array( 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 ); //将前17位加权因子保存在数组里
+				   	var idCardY=new Array( 1, 0, 10, 9, 8, 7, 6, 5, 4, 3, 2 ); //这是除以11后，可能产生的11位余数、验证码，也保存成数组
+				   	var idCardWiSum=0; //用来保存前17位各自乖以加权因子后的总和
+				   	for(var i=0;i<17;i++){
+				    	idCardWiSum+=$(_this).val().substring(i,i+1)*idCardWi[i];
+				   	}
+
+				   	var idCardMod=idCardWiSum%11;//计算出校验码所在数组的位置
+				   	var idCardLast=$(_this).val().substring(17);//得到最后一位身份证号码
+
+				   	//如果等于2，则说明校验码是10，身份证号码最后一位应该是X
+				   	if(idCardMod==2){
+				    	if(idCardLast=="X"||idCardLast=="x"){
+				     		
+				    	}else{
+				     		this.msg("身份证号码错误！");
+				    	}
+				   	}else{
+				    	//用计算出的验证码与最后一位身份证号码匹配，如果一致，说明通过，否则是无效的身份证号码
+				    	if(idCardLast==idCardY[idCardMod]){
+				     		
+				    	}else{
+				     		this.msg("身份证号码错误！");
+				    	}
+				   	}
+				  } 
+				}else{
+					this.msg("身份证格式不正确!");
+				}
+				this.empty(_this);
+			};
+		}
+		var valForm=new valForm();
+	</script>
+</body>
+</html>

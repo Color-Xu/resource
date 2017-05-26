@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<script type="text/javascript" src="./js/flexible.js"></script>
+	<title>引导页</title>
+	<link rel="stylesheet" type="text/css" href="./css/style.css">
+	<script type="text/javascript" src="./js/slip.js"></script>
+</head>
+<body>
+	<div id="wrap">
+		<div class="page pg1 ani">
+			<img src="./images/pg1-1.png" alt="" class="img1-1">
+			<img src="./images/pg1-2.png" alt="" class="img1-2">
+			<img src="./images/pg1-3.png" alt="" class="img1-3">
+			<p class="img1-4">想要，还是得靠贷</p>
+		</div>
+		<div class="page pg2">
+			<img src="./images/pg2-1.png" alt="" class="img2-1">
+			<img src="./images/pg2-3.png" alt="" class="img2-2">
+		</div>
+		<div class="page pg3">
+			<img src="./images/pg3-2.png" alt="" class="img3-1">
+			<img src="./images/pg3-3.png" alt="" class="img3-2">
+			<a href="">进入首页</a>
+		</div>
+	</div>
+</body>
+	<script>
+		window.onload=function(){
+			var wrap=document.querySelector('#wrap');
+			var pages=document.querySelectorAll('.page');
+			var slip = Slip(wrap, 'y').webapp(pages).end(function(){
+				for(var i=0;i<pages.length;i++){
+					var reg = new RegExp('(\\s|^)' + 'ani' + '(\\s|$)');
+					pages[i].className=pages[i].className.replace(reg,"");
+				}
+				pages[this.page].className+=' ani';
+			});
+		};
+	</script>
+</html>

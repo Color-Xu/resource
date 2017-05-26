@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="Keywords" content="">
+	<meta name="Description" content="">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>XuLuo</title>
+	<style>
+		*{margin: 0;padding: 0;font-family: 'microsoft yahei',Arial;}
+		a{text-decoration: none;outline: none;}
+		ul,li{list-style: none;}
+		/*所需css*/
+		.wrap{perspective:1500px;position:relative;height:100vh;width:100%;}
+		.cont{line-height:50px;text-align:center;color:#fff;}
+		.body{background:#000;height:100%;-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0);-webkit-transition:all 0.5s;transition:all 0.5s;}
+		.body.active{-webkit-transform:translate3d(-50%,0,0) rotateY(10deg) scale(0.9);transform:translate3d(-50%,0,0) rotateY(10deg) scale(0.9);}
+		.title{height:50px;background:#eee;line-height:50px;text-align:center;}
+		.icon{position:absolute;right:10px;top:12px;z-index:10;}
+		.icon span{display:block;background:#ED1C29;width:30px;height:3px;border-radius:1px;margin:4px;}
+		#icon2 span{background:#fff;}
+		#icon2 .s1{-webkit-transform:rotate(45deg) translate3d(4px,4px,0);transform:rotate(45deg)translate3d(4px,4px,0);}
+		#icon2 .s2{opacity:0;}
+		#icon2 .s3{-webkit-transform:rotate(-45deg) translate3d(6px,-6px,0);transform:rotate(-45deg) translate3d(6px,-6px,0);}
+		#nav{background:#CB2B34;padding-top:50px;position:fixed;right:0;top:0;width:55%;height:200%;font-size:14px;z-index:100;transition:all 0.5s;-webkit-transition:all 0.5s;-webkit-transform:translate3d(100%,0,0) rotateY(-90deg);transform:translate3d(100%,0,0) rotateY(-90deg);}
+		#nav a{display:inline-block;padding:6px 0 6px 10px;width:95%;color:#fff;border-bottom:1px solid #EC6E72;}
+		#nav.active{-webkit-transform:translate3d(0%,0,0);transform:translate3d(0%,0,0);transition:all 0.5s 0.2s;-webkit-transition:all 0.5s 0.2s;}
+	</style>
+</head>
+<body>
+	<div class="wrap">
+		<div id="nav">
+			<a href="about.html">About Us</a><a href="">Latest News</a>
+			<a href="">Branch Network</a><a href="">Business in Mainland China</a>
+			<a href="">Bonus Points Redemption</a><a href="">MGM</a>
+			<a href="">FAQ</a>
+			<a href="">Latest Advertisement</a>
+			<div class="icon" id="icon2">
+				<span class="s1"></span>
+	        	<span class="s2"></span>
+	        	<span class="s3"></span>
+			</div>
+		</div>
+		<div class="body">
+			<div class="title">导航 
+				<div id="icon" class="icon">
+					<span class="s1"></span>
+		        	<span class="s2"></span>
+		        	<span class="s3"></span>
+				</div>
+			</div>
+			<div class="cont">内容</div>
+		</div>
+	</div>
+	<!-- 必须引入的js -->
+	<script type="text/javascript">
+		document.querySelector('#icon').onclick=function(e){			
+			document.querySelector('#nav').classList.add('active');
+			document.querySelector('.body').classList.add('active');
+			e.stopPropagation();
+		};
+		document.querySelector('#icon2').onclick=function(e){			
+			document.querySelector('#nav').classList.remove('active');
+			document.querySelector('.body').classList.remove('active');
+			e.stopPropagation();
+		};
+		document.onclick=function(e){
+			if(e.target.id!='nav' && document.querySelector('#nav').classList.contains('active')){				
+				document.querySelector('#nav').classList.remove('active');
+				document.querySelector('.body').classList.remove('active');
+			}
+		};
+	</script>
+</body>
+</html>
